@@ -17,7 +17,10 @@ const useTodo = () => {
         initialized && localStorage.setItem('todos', JSON.stringify(todos));
     }, [todos, initialized]);
 
-    const handleFormSubmit = useCallback((data: string) => {
+    const handleFormSubmit = useCallback((data: string = '') => {
+        const trimmed = data.trim();
+        if (!trimmed) return;
+        if (todos.some(todo => todo.task === trimmed)) return;
         const newTodo: ITodo = {
             id: todos.length + 1,
             task: data,
